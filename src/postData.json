@@ -1,0 +1,22 @@
+[
+  {
+    "brand": "Ford",
+    "model": "Focus"
+  },
+  {
+    "brand": "Chevy",
+    "model": "Impala"
+  },
+  {
+    "brand": "Fiat",
+    "model": "Panda"
+  },
+  {
+    "brand": "Pagani",
+    "model": "Huayra"
+  },
+  {
+    "brand": "Peugeot",
+    "model": "502"
+  }
+]
