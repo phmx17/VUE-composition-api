@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p v-if="filteredCars.length > 0" >Showing {{ filteredCars.length }} results for {{ query }}</p>
+    <p v-if="filteredCarsFilled" >Showing {{ filteredCars.length }} results for {{ query }}</p>
     <ul>
       <li v-for="car in filteredCars" :key="car.model">
         {{car.model}}
@@ -24,8 +24,11 @@
            c.brand.toLowerCase().includes(props.query.toLowerCase())
         )
       })
+      const filteredCarsFilled = computed(() =>
+          filteredCars.value.length > 0) // simplified ternary expression
       return {
-        filteredCars
+        filteredCars,
+        filteredCarsFilled
 
       }
 
