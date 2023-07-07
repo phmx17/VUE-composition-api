@@ -12,11 +12,7 @@ export default {
     const subscribeEvent = () => {
       context.emit('subscribeEvent', 'Welcome Friend!') // emitting to parent
     }
-
-
-
     return {subscribeEvent}
-
   },
 }
 </script>
