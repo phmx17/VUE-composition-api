@@ -14,22 +14,22 @@
     <button class="p-4 rounded-md bg-red-300" @click="submitGitUser = gitUser">submit</button>
     <div class="my-3" >
       <ul class="flex flex-col justify-center" >
-        <li v-for="repo in data" :key="repo.id">
-          {{repo.name }}
+        <li v-for="(repo, idx) in data" :key="repo.id">
+          {{idx}}: {{repo.name }}
         </li>
       </ul>
     </div>
   </div>
   <div class="text-xl font-mono flex flex-col justify-center bg-blue-200 items-center" >
     <h1 class="my-3" > Let's check out a reference to a DOM element</h1>
-    <p class="bg-red-300 myBtn my-3 p-2" ref="para" @click="activatePara" >Hi. My name is {{dogName}}</p>
-    <button class="p-4 rounded-md bg-red-300" @click="activatePara">Click to change</button>
-
+    <p class="bg-red-300 myBtn my-3 p-2" ref="para" @click="activatePara" >Hi. I am little {{dogName}}</p>
+    <button class="p-4 rounded-md bg-red-300" @click="activatePara">Click to switch Names</button>
+    <button class="p-4 rounded-md bg-green-300" @click="quitWatchingDogNames">Stop Watching Dog Names</button>
   </div>
 </template>
 
 <script>
-import { ref, watch, reactive, toRefs } from 'vue'
+import { ref, watchEffect, watch, reactive, toRefs } from 'vue' // watchEffect() differs from watch() in that it can contain refs anywhere in code block, not just as param.
 import SearchResults from "@/components/SearchResults.vue";
 export default {
   components: {
@@ -37,27 +37,35 @@ export default {
   },
   // setup() is the core of CAPI
   setup() {
-    const query = ref('') // make reactive and set initial val
+    const query = ref('') // make reactive to template; this replaces data() in OAPI
     const reset = () => query.value = '' // query is a proxy object
     const gitUser = ref(null) // template ref
     const submitGitUser = ref(null)
-    const state = reactive({data: []}) // example of using reactive (must import); will get unpacked via spread operator in return {} with toRefs
+    const state = reactive({data: []}) // reactive does not support primitive types! this gets unpacked via spread operator in return {} with toRefs
     const para = ref(null); // this will reference a DOM paragraph
+    const dogNameSelection = ['Scruffy', 'Nelly', 'Pickles', 'Nibbles', 'Pizmo']
     const dogName = ref('Scruffy')
-    watch(async () => {
+    // gets triggered when ref submitGitUser changes and also on component initial load
+    watchEffect(async () => {
       if (!submitGitUser.value) return
-      const response = await fetch(`https://api.github.com/users/${submitGitUser.value}/repos`)
-      const repos = await response.json()
-      console.log(repos[0].name)
-      state.data = repos
+      try {
+        const response = await fetch(`https://api.github.com/users/${submitGitUser.value}/repos`)
+        if (!response.ok) throw Error('no data available') // response and throw error
+        const repos = await response.json() // await == convert the promise
+        console.log(repos[0].name)
+        state.data = repos
+      } catch(err) {
+        console.log('error on fetch: ', err.message) // thrown Error
+      }
     })
+    // watch() demo and how to disable watching
+    const watchDemo = watch(dogName, () => console.log('watching dog names.....'))
+    const quitWatchingDogNames = () => watchDemo() // disable
     const activatePara = () => {
-      // para.value.textContent = 'Hi. I\'m Chuck and I\'m here to dance.'
-      dogName.value = 'Nelly'
+      dogName.value = dogNameSelection[Math.floor(Math.random() * dogNameSelection.length)]
       para.value.classList.add('danger') // can't seem to add tailwind here....
-      console.log(para.value)
     }
-    return {query, reset, gitUser, submitGitUser, ... toRefs(state,), para, activatePara, dogName // ...toRefs(): unpack state so that .data can be used in template
+    return {query, reset, gitUser, submitGitUser, ... toRefs(state), para, activatePara, dogName, quitWatchingDogNames  // ...toRefs(): unpack state so that .data can be used in template
 
     }
   },

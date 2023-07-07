@@ -18,6 +18,7 @@
       query: String
     },
     setup (props) {
+      // gets triggered when ref props.query changes
       const filteredCars = computed(() => {
         if (props.query === '') return filteredCars
         return cars.filter((c) =>

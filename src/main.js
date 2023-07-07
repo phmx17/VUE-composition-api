@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import '../index.css'
-// import './assets/customStyles.css'
-createApp(App).mount('#app')
+import router from './router'
+// import './assets/customStyles.css' // just for testing
+createApp(App).use(router).mount('#app')
