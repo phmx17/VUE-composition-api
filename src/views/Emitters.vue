@@ -8,25 +8,18 @@
     <button @click="bgColor = 'bg-blue-300'" class="p-4 rounded-md bg-blue-300 text-white font-semibold ">Take the blue pill</button>
     <button @click="bgColor = 'bg-red-300'" class="p-4 rounded-md bg-red-300 text-white font-semibold ">Take the red pill</button>
   </div>
-  <RedPillBluePill :class="bgColor" />
+  <RedPillBluePill :class="bgColor" id="12" />
 
 </template>
 
-<script>
+<script setup>
   import EmitterButton from "@/components/EmitterButton.vue"
   import RedPillBluePill from "@/components/RedBluePill.vue"
   import {ref} from "vue";
-
-  export default {
-    components: { EmitterButton, RedPillBluePill },
-
-    setup() {
-      const bgColor = ref(null)
-      const subscribeMessage = ref(null)
-      const subscribeSubmit = (test) => {
-        subscribeMessage.value = test
-      }
-      return {subscribeSubmit, subscribeMessage, bgColor}
-    }
+  const bgColor = ref('bg-gray-300') // this can't override the component's css
+  const subscribeMessage = ref(null)
+  const subscribeSubmit = (test) => {
+    subscribeMessage.value = test
   }
+
 </script>

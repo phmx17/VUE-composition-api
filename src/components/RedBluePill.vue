@@ -1,23 +1,20 @@
 <template>
-    <div class="card text-white text-4xl">
+    <div class="pillCard text-white text-4xl mt-5 ">
       <h1>This is a pill</h1>
+<!--      {{$attrs}}-->
     </div>
 </template>
 
 <script>
 export default {
-  name: "RedBluePill"
+  name: "RedBluePill",
+  // inheritAttrs: false, // prevent attributes from passing from parent
 }
 </script>
 
-<style scoped>
-  .card {
-    border: #2c3e50 2px solid;
-    border-radius: 50%;
-    padding: 3rem;
-    max-width: 50%;
-    margin: auto;
 
-    //background-color: #aaaaaa;
-  }
+
+
+<style scoped>
+
 </style>

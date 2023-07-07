@@ -14,7 +14,7 @@
     <button class="p-4 rounded-md bg-red-300" @click="submitGitUser = gitUser">submit</button>
     <div class="my-3" >
       <ul class="flex flex-col justify-center" >
-        <li v-for="(repo, idx) in data" :key="repo.id">
+        <li v-for="(repo, idx) in state.data" :key="repo.id">
           {{idx}}: {{repo.name }}
         </li>
       </ul>
@@ -28,15 +28,12 @@
   </div>
 </template>
 
-<script>
-import { ref, watchEffect, watch, reactive, toRefs } from 'vue' // watchEffect() differs from watch() in that it can contain refs anywhere in code block, not just as param.
+<script setup>
+import { ref, watchEffect, watch, reactive } from 'vue' // watchEffect() differs from watch() in that it can contain refs anywhere in code block, not just as param.
 import SearchResults from "@/components/SearchResults.vue";
-export default {
-  components: {
-    SearchResults,
-  },
+
   // setup() is the core of CAPI
-  setup() {
+
     const query = ref('') // make reactive to template; this replaces data() in OAPI
     const reset = () => query.value = '' // query is a proxy object
     const gitUser = ref(null) // template ref
@@ -51,9 +48,8 @@ export default {
       try {
         const response = await fetch(`https://api.github.com/users/${submitGitUser.value}/repos`)
         if (!response.ok) throw Error('no data available') // response and throw error
-        const repos = await response.json() // await == convert the promise
-        console.log(repos[0].name)
-        state.data = repos
+        state.data = await response.json() // await == convert the promise
+        if (state.data.length === 0) throw Error('User not found') // api returns [] when no user found
       } catch(err) {
         console.log('error on fetch: ', err.message) // thrown Error
       }
@@ -65,11 +61,6 @@ export default {
       dogName.value = dogNameSelection[Math.floor(Math.random() * dogNameSelection.length)]
       para.value.classList.add('danger') // can't seem to add tailwind here....
     }
-    return {query, reset, gitUser, submitGitUser, ... toRefs(state), para, activatePara, dogName, quitWatchingDogNames  // ...toRefs(): unpack state so that .data can be used in template
-
-    }
-  },
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
