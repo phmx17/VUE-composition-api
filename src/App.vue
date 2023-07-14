@@ -1,7 +1,9 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/emitters">Emitters</router-link>
+    <router-link to="/emitters">Emitters</router-link> |
+    <router-link to="/books">Books API</router-link> |
+    <router-link to="/forms">Forms</router-link>
   </nav>
   <router-view/>
 </template>
