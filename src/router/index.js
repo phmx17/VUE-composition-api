@@ -24,7 +24,18 @@ const routes = [
     path: '/forms',
     name: 'forms',
     component: () => import('../views/Forms.vue')
-  }
+  },
+  {
+  path: '/search',
+  name: 'search',
+  component: () => import('../views/SearchView.vue')
+  },
+  {
+  path: '/table',
+  name: 'table',
+  component: () => import('../views/TableView.vue')
+  },
+
 ]
 
 const router = createRouter({
