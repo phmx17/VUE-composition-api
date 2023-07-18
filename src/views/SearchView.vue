@@ -42,8 +42,6 @@
       }
       // no errors
       searchResults.value = data.titleResults
-
-
     } catch(err) {
       console.log(err.message)
     }
