@@ -35,6 +35,11 @@ const routes = [
   name: 'table',
   component: () => import('../views/TableView.vue')
   },
+  {
+  path: '/time',
+  name: 'time',
+  component: () => import('../views/TimeBossView.vue')
+  },
 
 ]
 

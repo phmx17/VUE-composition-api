@@ -6,6 +6,7 @@
     <router-link to="/forms">Forms</router-link> |
     <router-link to="/search">Search</router-link> |
     <router-link to="/table">Table</router-link> |
+    <router-link to="/time">Time Boss</router-link> |
   </nav>
   <router-view/>
 </template>
