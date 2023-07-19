@@ -40,6 +40,11 @@ const routes = [
   name: 'time',
   component: () => import('../views/TimeBossView.vue')
   },
+  {
+  path: '/allocations',
+  name: 'allocations',
+  component: () => import('../views/TimeAllocationsView.vue')
+  },
 
 ]
 

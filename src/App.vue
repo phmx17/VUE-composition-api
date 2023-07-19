@@ -7,6 +7,7 @@
     <router-link to="/search">Search</router-link> |
     <router-link to="/table">Table</router-link> |
     <router-link to="/time">Time Boss</router-link> |
+    <router-link to="/allocations">Time Allocations</router-link> |
   </nav>
   <router-view/>
 </template>

@@ -105,15 +105,14 @@ const handleSubmitForm = async () => {
   // bestseller.value == 'Yes'? is_bestselling = true : is_bestselling = false
 
   const formData = new FormData()
-  formData.append('devName', devName.value)
-  formData.append('projectTitle', projectTitle.value)
-  formData.append('dateWorkedOn', dateWorkedOn.value)
-  formData.append('timeWorkedOn', timeWorkedOn.value)
-  formData.append('comments', comments.value)
-  // formData.append('file', imageFile.value)
+  formData.append('developer', nameResult.value)
+  formData.append('date', dateWorkedOn.value)
+  formData.append('time', timeWorkedOn.value )
+  formData.append('comment', comments.value)
+  // formData.append('timerTotalTime', )
 
   try {
-    const response = await fetch('http://127.0.0.1:8000/books/api/timeboss', {
+    const response = await fetch('http://127.0.0.1:8000/books/api/timeboss/allocations', {
       method: 'POST',
       body: formData
       // headers: {
