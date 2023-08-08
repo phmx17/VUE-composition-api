@@ -20,14 +20,8 @@
 </template>
 
 <script setup>
+  import { BOOKS_API_INDEX } from '../utils/routes.js'
   import {ref, computed, onBeforeMount} from "vue";
-
-  // const tableHeaders = ref(['Title', 'Author', 'Rating'])
-  // const booksTemp = ref([
-  //   {title: 'watership down', author: 'Roald Dahl', rating: 3},
-  //   {title: 'Grapes of Wrath', author: 'John Steinbeck', rating: 5},
-  //   {title: 'Prince Caspian', author: 'C.S. Lewis', rating: 2},
-  // ])
   const books = ref([{}])
   const bookKeys = computed(() => Object.keys(books.value[0]))
   const isBestSelling = (ibs) => {
@@ -35,7 +29,7 @@
   }
   onBeforeMount(async () => {
     try {
-      let resp = await fetch('http://127.0.0.1:8000/books/index', {
+      let resp = await fetch(BOOKS_API_INDEX, {
         method: 'GET'
       })
       let data = await resp.json()
@@ -45,7 +39,7 @@
         throw Error(`404: Response Errors: ${respErrors}`)
       }
       // no errors
-      books.value = data.books
+      books.value = data
       console.log('mounted books: ', books.value)
     } catch(err) {
       console.log(err.message)

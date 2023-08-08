@@ -2,12 +2,11 @@
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/emitters">Emitters</router-link> |
-    <router-link to="/books">Books API</router-link> |
-    <router-link to="/forms">Forms</router-link> |
+    <router-link to="/books-table">Books Table</router-link> |
+    <router-link to="/add-book">Add Book</router-link> |
     <router-link to="/search">Search</router-link> |
-    <router-link to="/table">Table</router-link> |
-    <router-link to="/time">Time Boss</router-link> |
-    <router-link to="/allocations">Time Allocations</router-link> |
+
+
   </nav>
   <router-view/>
 </template>

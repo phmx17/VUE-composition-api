@@ -1,4 +1,6 @@
 <template>
+  <h1 class="text-8xl" >Add Book</h1>
+
   <div v-if="submitSuccess" @click="modalDismiss" class="modal flex flex-col justify-center w-full ">
     <h1 class="text-8xl text-amber-50 block ">Submission Successful</h1>
   </div>
@@ -69,6 +71,7 @@
 
 <script setup>
   // import axios from "axios";
+  import { BOOKS_API_ADD_BOOK } from '../utils/routes'
   import {ref} from 'vue'
 
   const title = ref('')
@@ -122,7 +125,7 @@
     formData.append('file', imageFile.value)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/books/api', {
+      const response = await fetch(BOOKS_API_ADD_BOOK, {
         method: 'POST',
         body: formData
         // headers: {

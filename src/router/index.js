@@ -16,35 +16,26 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Emitters.vue')
   },
   {
-    path: '/books',
-    name: 'books',
-    component: () => import('../views/Books.vue')
+    path: '/books-table',
+    name: 'books-table',
+    component: () => import('../views/BooksTableView.vue')
   },
   {
-    path: '/forms',
-    name: 'forms',
-    component: () => import('../views/Forms.vue')
+    path: '/add-book',
+    name: 'add-book',
+    component: () => import('../views/AddBookView.vue')
   },
   {
-  path: '/search',
-  name: 'search',
-  component: () => import('../views/SearchView.vue')
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/SearchView.vue')
   },
   {
-  path: '/table',
-  name: 'table',
-  component: () => import('../views/TableView.vue')
+    path: '/book-details',
+    name: 'book-details',
+    component: () => import('../views/BookDetailsView.vue')
   },
-  {
-  path: '/time',
-  name: 'time',
-  component: () => import('../views/TimeBossView.vue')
-  },
-  {
-  path: '/allocations',
-  name: 'allocations',
-  component: () => import('../views/TimeAllocationsView.vue')
-  },
+
 
 ]
 

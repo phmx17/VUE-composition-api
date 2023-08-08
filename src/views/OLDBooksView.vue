@@ -28,15 +28,15 @@
   const handleGetBooks = async() => {
     // make axios request
     try {
-    let data = await fetch('http://127.0.0.1:8000/books/index', {
+    let data = await fetch('http://127.0.0.1:8000/api/books/index', {
         // method: 'GET',
-        // headers: {'Access-Control-Allow-Origin': '*',
+        // headers: {'Access-Control-Allow-Origin': 'localhost:8080',
         //           'Content-Type': 'Application/json'
         // }
     })// response object
       if (!data.ok) throw Error('No records available')
       data = await data.json() // convert to data
-      bookList.value = data.books
+      bookList.value = data
       // console.log('bookList : ', bookList.value)
       showBooks.value = true
       return bookList.value

@@ -1,12 +1,12 @@
 <template>
-  <h1 class="text-6xl" >Login</h1>
+  <h1 class="text-6xl">Search</h1>
   <div class="container flex flex-col justify-center items-center h-screen w-3/4 mx-auto bg-amber-200 ">
     <div class="searchBox h-1/2 w-1/2 bg-blue-950 text-amber-50 p-4 rounded-xl ">
-      <label class="block text-2xl my-2 font-medium ">Enter Your Dev Name</label>
-        <input class=" w-3/4 text-2xl bg-blue-950 rounded-md " type="text" placeholder="enter name" v-model="nameInput" autofocus />
+      <label class="block text-2xl my-2 font-medium ">Search By Title</label>
+        <input class=" w-3/4 text-2xl bg-blue-950 rounded-md " type="text" placeholder="enter name" v-model="titleInput" autofocus />
 <!--        <button class="bg-blue-800 rounded-md p-2 " >go!</button>-->
-      <ul v-if="existSearchResults" class="w-3/4 mx-auto" v-for="(user, idx) in searchResults" :key="idx">
-        <li  @click="selectName(idx)" class="listItem text-2xl" >{{user[0]}}</li>
+        <ul class="w-3/4 mx-auto" v-for="(title, idx) in searchResults" :key="idx">
+        <li v-if="existSearchResults"  @click="selectTitle(idx)" class="listItem text-2xl" >{{title}}</li>
       </ul>
     </div>
   </div>
@@ -14,25 +14,27 @@
 
 <script setup>
 
-  import {ref, watch, computed} from "vue";
-  import { useRouter, useRoute } from 'vue-router'
+  import { BOOKS_API_SEARCH } from '../utils/routes.js'
 
-  const nameInput = ref('')
+  import {ref, watch, computed} from "vue";
+  import { useRouter } from 'vue-router'
+
+  const titleInput = ref('')
   const searchResults = ref([])
   const existSearchResults = computed(() => searchResults.value.length > 0) // no longer needed
-  const nameResult = ref('')
   const router = useRouter() // can push from method
-  const route = useRoute() // can push from method
 
-  watch(nameInput, async() => {
-    if (nameInput.value == '') {
+  // sending request to api on entering input for book title
+  watch(titleInput, async() => {
+    if (titleInput.value == '') {
       searchResults.value = [] // in order to not display results
       return
     }
     const formData = new FormData
-    formData.append('requestedUser', nameInput.value)
+    console.log('BOOKS_API_SEARCH', BOOKS_API_SEARCH)
+    formData.append('titleInput', titleInput.value)
     try {
-      let resp = await fetch('http://127.0.0.1:8000/books/api/timeboss', {
+      let resp = await fetch(BOOKS_API_SEARCH, {
         method: 'POST',
         body: formData
       })
@@ -43,17 +45,15 @@
         throw Error(`404: Response Errors: ${respErrors}`)
       }
       // no errors
-      searchResults.value = data.users
+      searchResults.value = data.titleResults
     } catch(err) {
       console.log(err.message)
     }
   })
-  const selectName = (idx) => {
-    nameResult.value = searchResults.value[idx]
-    nameInput.value = nameResult.value // place into search input
-    // reidrect
-    router.push('time')
-
+  // do a redirect when the title is selected from drop down list
+  const selectTitle = (idx) => {
+    titleInput.value = searchResults.value[idx] // place into search input
+    // router.push('time') // reidrect
     searchResults.value = []
   }
 
