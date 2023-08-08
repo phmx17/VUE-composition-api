@@ -35,6 +35,16 @@ const routes = [
     name: 'book-details',
     component: () => import('../views/BookDetailsView.vue')
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/LoginView.vue')
+  },
+  {
+    path: '/vuex',
+    name: 'vuex',
+    component: () => import('../views/VuexView.vue')
+  },
 
 
 ]

@@ -22,6 +22,11 @@
 <script setup>
   import { BOOKS_API_INDEX } from '../utils/routes.js'
   import {ref, computed, onBeforeMount} from "vue";
+  import { useStore } from "vuex";
+
+  const store = useStore()
+  const accessToken = computed(() => store.state.accessToken)
+
   const books = ref([{}])
   const bookKeys = computed(() => Object.keys(books.value[0]))
   const isBestSelling = (ibs) => {
@@ -30,7 +35,12 @@
   onBeforeMount(async () => {
     try {
       let resp = await fetch(BOOKS_API_INDEX, {
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json', // not with formData, just with normal data obj
+          'Authorization': `Bearer ${accessToken.value}`
+        },
+
       })
       let data = await resp.json()
       // if errors

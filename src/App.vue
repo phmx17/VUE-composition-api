@@ -5,6 +5,8 @@
     <router-link to="/books-table">Books Table</router-link> |
     <router-link to="/add-book">Add Book</router-link> |
     <router-link to="/search">Search</router-link> |
+    <router-link to="/login">Login</router-link> |
+    <router-link to="/vuex">Vuex</router-link> |
 
 
   </nav>
