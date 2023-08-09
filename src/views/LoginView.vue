@@ -28,7 +28,7 @@
   import { useStore } from 'vuex'
 
   const store = useStore()
-  const accessToken = computed(() => store.state.accessToken)
+  const accessToken = computed(() => store.getters['getAccessToken'])
   const username = ref('')
   const password = ref('')
 

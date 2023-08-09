@@ -25,7 +25,7 @@
   import { useStore } from "vuex";
 
   const store = useStore()
-  const accessToken = computed(() => store.state.accessToken)
+  const accessToken = computed(() => store.getters['getAccessToken'])
 
   const books = ref([{}])
   const bookKeys = computed(() => Object.keys(books.value[0]))

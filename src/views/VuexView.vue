@@ -37,7 +37,7 @@
 
 
   const handleSubmitForm = () => {
-    store.commit('increment') // launches the function in mutations
+    // store.commit('increment') // launches the function in mutations
     // store.commit('addAccessToken', data1.value)
     store.dispatch('addAccessToken', data1.value) // dispatch is better than commit to add data to store
     accessToken.value = store.getters['getAccessToken'] // access getters

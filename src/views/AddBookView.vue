@@ -72,8 +72,11 @@
 <script setup>
   // import axios from "axios";
   import { BOOKS_API_ADD_BOOK } from '../utils/routes'
-  import {ref} from 'vue'
+  import { ref, computed } from 'vue'
+  import { useStore } from "vuex";
 
+  const store = useStore()
+  const accessToken = computed(() => store.getters['getAccessToken'])
   const title = ref('')
   const author = ref('')
   const rating = ref(null)
@@ -82,7 +85,7 @@
     title: [], author: [], rating: ''
   })
   const submitSuccess = ref(false) // show submit modal
-  const imageFile = ref({})
+  const imageFile = ref(null)
   const allowedFileSize = ref(8) // in Megabytes
   const fileUploadErrors = ref([])
   const modalDismiss = () => {
@@ -93,10 +96,9 @@
     if (!e.target.files[0]) return
     const file = e.target.files[0]
 
-    if (Math.round(file.size / 1024 / 1024) < allowedFileSize.value) {
-      let fileSize = Math.round(file.size / 1024 / 1024)
-    } // allowed file size
-    else fileUploadErrors.value.push('file upload size exceeded')
+    if (Math.round(file.size / 1024 / 1024) > allowedFileSize.value) {
+      fileUploadErrors.value.push('file upload size exceeded')
+    }
 
     let is_ValidFileType = ['jpg', 'jpeg', 'png', 'gif'].includes(file.name.toLowerCase().split('.').pop())
     if (!is_ValidFileType) fileUploadErrors.value.push('invalid file type')
@@ -111,7 +113,6 @@
   const handleSubmitForm = async () => {
     if (!rating.value) {
       validationErrors.value.rating = 'Please Enter a Rating'
-      console.log('a rating is required')
       return
     }
     let is_bestselling
@@ -122,12 +123,15 @@
     formData.append('author', author.value)
     formData.append('is_bestselling', is_bestselling)
     formData.append('rating', rating.value)
-    formData.append('file', imageFile.value)
+    if (imageFile.value) formData.append('file', imageFile.value)
 
     try {
       const response = await fetch(BOOKS_API_ADD_BOOK, {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${accessToken.value}`
+        }
         // headers: {
         //   'Content-Type': 'application/json', // not with formData, just with normal data obj
         // },
@@ -143,14 +147,15 @@
     //   })
     //   console.log('fuck axios')
     //   if (response.error) console.log("reponse.error ", response.error)
+      const postResponse = await response.json() // get the error messages from django
       if (!response.ok) {
-        const postResponse = await response.json() // get the error messages from django
         validationErrors.value = postResponse // populate and activate the errors in template
         console.log(validationErrors.value)
         throw Error('404: failed to post data')
       }
       // no errors from server
       submitSuccess.value = true
+      console.log('postResponse after posting: ', postResponse)
       validationErrors.value = {title: [], author: [], rating: []} // reset otherwise error in template
     } catch(err) {
       console.log(err.message)

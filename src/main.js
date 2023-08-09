@@ -3,11 +3,14 @@ import { createStore } from 'vuex'
 import App from './App.vue'
 import '../index.css'
 import router from './router'
+import createPersistedState from 'vuex-persistedstate' // prevent loss after browser refresh
+import * as Cookies from 'js-cookie' // handle cookies; works for every browser
 // import './assets/customStyles.css' // just for testing
 
 
 // Create a new store instance.
 const store = createStore({
+    plugins: [createPersistedState()],
     state () {
         return {
             count: 0,
